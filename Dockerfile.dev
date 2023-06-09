@@ -1,4 +1,5 @@
 FROM node:alpine
+LABEL version="1.0"
 
 WORKDIR '/app'
 ENV NODE_OPTIONS=--openssl-legacy-provider
