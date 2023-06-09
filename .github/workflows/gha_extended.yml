@@ -61,6 +61,7 @@ jobs:
         uses: docker/scout-action@dd36f5b0295baffa006aa6623371f226cc03e506
         with:
           command: compare
+          image: ${{ steps.meta.outputs.tags }}
           to: ghcr.io/${{ github.repository_owner}}/zadanie2
           ignore-unchanged: true
           only-severities: critical,high
