@@ -10,16 +10,16 @@ jobs:
   build-push-images-with-cache:
     name: Build and push Docker image to GHCR
     uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/x86_64,linux/arm64
-          push: true
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/zadanie2
-          cache-to: type=inline
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/zadanie2:x86_64
-            ghcr.io/${{ github.repository_owner }}/zadanie2:arm64
+      with:
+        context: .
+        file: ./Dockerfile
+        platforms: linux/x86_64,linux/arm64
+        push: true
+        cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/zadanie2
+        cache-to: type=inline
+        tags: |
+          ghcr.io/${{ github.repository_owner }}/zadanie2:x86_64
+          ghcr.io/${{ github.repository_owner }}/zadanie2:arm64
 
     steps:
       - name: Check out the repo
