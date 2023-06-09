@@ -36,15 +36,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/x86_64,linux/arm64
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner}}/zadanie2:v1.0.0
+      - name: Example workflow using Snyk
+        on: push
+        jobs:
+        security:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@master
+          - name: Run Snyk to check for vulnerabilities
+             uses: snyk/actions/node@master
+             env:
+              SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+               with:
+                command: monitor
 
 
       # - name: Docker Scout
