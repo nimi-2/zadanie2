@@ -12,5 +12,5 @@ W przeglądarce należy wpisać:
 http://localhost:3000<br>
 <h2>GitHub action</h2>
 Wszystkie pushe zostały przeprowadzone w środowisku visual studio code<br>
-# W pdf o nazwie docker_z2 znajdują się screeny z działania aplikacji
+W pdf o nazwie docker_z2 znajdują się screeny z działania aplikacji
 # Całość została stworzona na systemie Windows
