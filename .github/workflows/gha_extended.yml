@@ -71,7 +71,7 @@ jobs:
         with:
           command: compare
           image: ${{ steps.meta.outputs.tags }}
-          to: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:edge
+          to: ghcr.io/${{ github.repository_owner }}/zadanie2
           ignore-unchanged: true
           only-severities: critical,high
           token: ${{ secrets.GHC_TOKEN}}
