@@ -1,10 +1,10 @@
-name: gha_extended:GitHub Action flow to Docker hub with local cache
+name: gha_zadanie2:Zadanie2
 
 on:
   workflow_dispatch:
-#  push:
-#    branches:
-#      - 'main'
+  push:
+    branches:
+      - 'main'
 
 jobs:
   build-push-images-with-cache:
@@ -45,8 +45,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./Dockerfile_prod
-          platforms: linux/amd64,linux/arm64
+          file: ./Dockerfile
+          platforms: linux/x86_64,linux/arm64
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
