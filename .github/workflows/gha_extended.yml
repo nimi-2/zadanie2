@@ -5,6 +5,11 @@ on:
   push:
     branches:
       - 'main'
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  SHA: ${{ github.event.push.head.sha || github.event.after }}
 
 jobs:
   build-push-images-with-cache:
@@ -26,6 +31,7 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
+          registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
@@ -59,7 +65,7 @@ jobs:
 
       - name: Docker Scout
         id: docker-scout
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'push' }}
         uses: docker/scout-action@dd36f5b0295baffa006aa6623371f226cc03e506
         with:
           command: compare
