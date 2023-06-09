@@ -9,7 +9,7 @@ on:
 jobs:
   build-push-images-with-cache:
     name: Build and push Docker image to GHCR
-    uses: docker/build-push-action@v3
+    uses: ubuntu:latest
     with:
       context: .
       file: ./Dockerfile
