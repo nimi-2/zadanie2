@@ -7,8 +7,7 @@ on:
       - 'main'
 
 env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
+  REGISTRY: docker.io
   IMAGE_NAME: ${{ github.repository }}
   SHA: ${{ github.event.push.head.sha || github.event.after }}
 
@@ -35,13 +34,6 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-      - name: Login to GHCR
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHC_TOKEN }}
 
       - name: Cache Docker layers
         uses: actions/cache@v2
@@ -58,11 +50,11 @@ jobs:
           file: ./Dockerfile
           platforms: linux/x86_64,linux/arm64
           push: true
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/zadanie2
-          cache-to: type=inline
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
           tags: |
-            ghcr.io/${{ github.repository_owner }}/zadanie2:x86_64
-            ghcr.io/${{ github.repository_owner }}/zadanie2:arm64
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x86_64
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:arm64
 
       - name: Docker Scout
         id: docker-scout
@@ -70,8 +62,7 @@ jobs:
         uses: docker/scout-action@dd36f5b0295baffa006aa6623371f226cc03e506
         with:
           command: compare
-          image: ${{ steps.meta.outputs.tags }}
-          to: ghcr.io/${{ github.repository_owner }}/zadanie2
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x86_64
+          to: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:edge
           ignore-unchanged: true
           only-severities: critical,high
-          token: ${{ secrets.GHC_TOKEN}}
