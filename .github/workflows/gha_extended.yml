@@ -49,12 +49,19 @@ jobs:
           file: ./Dockerfile
           platforms: linux/x86_64,linux/arm64
           push: true
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner}}/zadanie2
+          cache-to: type=inline
           tags: |
             ghcr.io/${{ github.repository_owner}}/zadanie2:x86_64
             ghcr.io/${{ github.repository_owner}}/zadanie2:arm64
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+      # - name: Docker Scout
+      #   id: docker-scout
+      #   if: ${{ github.event_name == 'pull_request' }}
+      #   uses: docker/scout-action@dd36f5b0295baffa006aa6623371f226cc03e506
+      #   with:
+      #     command: compare
+      #     image: ${{ steps.meta.outputs.tags }}
+      #     to: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:edge
+      #     ignore-unchanged: true
+      #     only-severities: critical,high
+      #     token: ${{ secrets.DOCKER_PAT }}
