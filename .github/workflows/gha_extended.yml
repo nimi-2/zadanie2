@@ -74,5 +74,4 @@ jobs:
           to: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:edge
           ignore-unchanged: true
           only-severities: critical,high
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          token: ${{ secrets.DOCKERHUB_TOKEN }}
+          token: ${{ secrets.GHC_TOKEN}}
